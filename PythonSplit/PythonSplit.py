@@ -1,13 +1,13 @@
 import re
+import asyncio
 
-
-def pegarPalavrasReservadas(textcode):
+async def pegarPalavrasReservadas(textcode):
     allwords = re.findall(r"[\w']+", pascal_code)
     r = re.compile('|'.join([r'\b%s\b' % w for w in allwords]), flags=re.I)
     reservados = r.findall(pascal_keys)
     return reservados
 
-def pegarTipoDeVariavel(textcode,varType):
+async def pegarTipoDeVariavel(textcode,varType):
     splitedcode = textcode.split()
     vars = []
 
@@ -21,11 +21,11 @@ def pegarTipoDeVariavel(textcode,varType):
     
     return vars
 
-def pegarFloats(textcode):
-    return pegarTipoDeVariavel(textcode,"real")
+async def pegarFloats(textcode):
+    return await pegarTipoDeVariavel(textcode,"real")
 
-def pegarInts(textcode):
-    return pegarTipoDeVariavel(textcode,"integer")
+async def pegarInts(textcode):
+    return await pegarTipoDeVariavel(textcode,"integer")
 
 
 pascal_keys=""
@@ -37,13 +37,21 @@ with open("pascal-keys.txt","r") as pkeys:
 with open("p1.pas","r") as pkeys:
     pascal_code = pkeys.read().lower()
 
-reservados = pegarPalavrasReservadas(pascal_code)
-floats = pegarFloats(pascal_code)
-ints = pegarInts(pascal_code)
 
-print("reservadas: ",reservados)
-print("floats: ",floats)
-print("ints: ",ints)
+
+loop = asyncio.get_event_loop()
+
+reservados = asyncio.gather(pegarPalavrasReservadas(pascal_code))
+floats = asyncio.gather(pegarFloats(pascal_code))
+ints = asyncio.gather(pegarInts(pascal_code))
+
+all_groups = asyncio.gather(reservados, floats, ints)
+results = loop.run_until_complete(all_groups)
+
+
+print("reservadas: ",reservados._result[0])
+print("floats: ",floats._result[0])
+print("ints: ",ints._result[0])
 
 
 
