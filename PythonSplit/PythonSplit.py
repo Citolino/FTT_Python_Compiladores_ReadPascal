@@ -7,35 +7,25 @@ def pegarPalavrasReservadas(textcode):
     reservados = r.findall(pascal_keys)
     return reservados
 
-def pegarFloats(textcode):
+def pegarTipoDeVariavel(textcode,varType):
     splitedcode = textcode.split()
-    floatsVar = []
+    vars = []
 
     inicioVar = splitedcode.index("var")
     fimVar = splitedcode.index("begin")
 
     subSplitedCode = splitedcode[inicioVar + 1:fimVar]
     for idx, val in enumerate(subSplitedCode):
-        if val == "real;":
-            floatsVar.append(subSplitedCode[idx - 2])
+        if val == varType + ";":
+            vars.append(subSplitedCode[idx - 2])
     
-    return floatsVar
+    return vars
+
+def pegarFloats(textcode):
+    return pegarTipoDeVariavel(textcode,"real")
 
 def pegarInts(textcode):
-    splitedcode = textcode.split()
-    intsVar = []
-
-    inicioVar = splitedcode.index("var")
-    fimVar = splitedcode.index("begin")
-
-    subSplitedCode = splitedcode[inicioVar + 1:fimVar]
-    for idx, val in enumerate(subSplitedCode):
-        if val == "integer;":
-            intsVar.append(subSplitedCode[idx - 2])
-    
-    return intsVar
-
-
+    return pegarTipoDeVariavel(textcode,"integer")
 
 
 pascal_keys=""
