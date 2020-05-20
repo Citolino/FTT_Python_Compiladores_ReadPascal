@@ -47,7 +47,7 @@ ints = asyncio.gather(pegarInts(pascal_code))
 
 all_groups = asyncio.gather(reservados, floats, ints)
 results = loop.run_until_complete(all_groups)
-
+loop.close()
 
 print("reservadas: ",reservados._result[0])
 print("floats: ",floats._result[0])
