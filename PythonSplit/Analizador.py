@@ -4,9 +4,11 @@ import re
 class Analizador:
     lin_num = 1
 
-    def tokenize(self, code):
+    def tokenize(self, code, reserv):
+
         rules = [
-            ('Reservados', r'(and|begin|boolean|break|byte|continue|div|do|double|xor|else|end|false|if|integer|longint|mod|not|or|repeat|shl|shortint|shr|single|then|true|program|var|until|while|word|xor|)'),     # RESERVADOS
+            ('Reservados', r'(' + reserv + ')'),     # RESERVADOS
+            #('Reservados', r'(and|begin|boolean|break|byte|continue|div|do|double|xor|else|end|false|if|integer|longint|mod|not|or|repeat|shl|shortint|shr|single|then|true|program|var|until|while|word|xor|)'),     # RESERVADOS
             ('Operacao', r'\b(\+|\-|\*|\^|\=|\:|\=)\b'),         # OPER
             ('Variavel', r'[a-zA-Z]\w*'),                        # VARS
             ('Float', r'\d(\d)*\.\d(\d)*'),                      # FLOAT
