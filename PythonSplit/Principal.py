@@ -5,14 +5,14 @@ from Analizador import Analizador
 
 def load_buffer():
       arq = open('p1.pas', 'r')
-      text = arq.readline()
+      text = arq.readline().lower()
 
       buffer = []
       cont = 1
 
       while text != "":
           buffer.append(text)
-          text = arq.readline()
+          text = arq.readline().lower()
           cont += 1
 
           if cont == 10 or text == '':
