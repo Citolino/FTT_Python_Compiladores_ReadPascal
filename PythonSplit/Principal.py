@@ -24,23 +24,29 @@ def load_buffer():
 
       arq.close()
 
-
-
+def read_keys():
+     reservados = ""
+     arq = open('pascal-keys.txt', 'r')
+     text = arq.readline().split()   
+     for word in text:
+        reservados += word+"|"
+        
+     return reservados
 
 
 Analisador = Analizador()
-
 
 token = []
 lexeme = []
 row = []
 column = []
 
-
 for i in load_buffer():
-    t, lex, lin, col = Analisador.tokenize(i)
+    t, lex, lin, col = Analisador.tokenize(i,read_keys())
     token += t
     lexeme += lex
     row += lin
     column += col
+
+
 
